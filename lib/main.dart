@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
+import 'package:imageslider/help.dart';
+import 'dialog.dart';
 import 'slider.dart';
 import 'DateTime.dart';
 import 'profilelist.dart';
@@ -7,6 +9,8 @@ import 'animatedlist.dart';
 import 'silverappbar.dart';
 import 'instagram.dart';
 import 'drawer.dart';
+import 'httpflutter.dart';
+import 'datetimeset.dart';
 
 void main() {
   runApp(MyApp());
@@ -133,6 +137,50 @@ class _MyHomeState extends State<MyHome> {
                   Navigator.push(context, MaterialPageRoute(builder: (context)=> Drawerdesign()));
                 },
                 child: Text('Drawer design',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),)),
+          ),
+          SizedBox(
+            height: 20.0,
+          ),
+
+          new Padding(padding: const EdgeInsets.all(8.0),
+            child: GestureDetector(
+                onTap:(){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> HomePage()));
+                },
+                child: Text('HTTP',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),)),
+          ),
+          SizedBox(
+            height: 20.0,
+          ),
+
+          new Padding(padding: const EdgeInsets.all(8.0),
+            child: GestureDetector(
+                onTap:(){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> DateTimePicker()));
+                },
+                child: Text('Date Time Set',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),)),
+          ),
+          SizedBox(
+            height: 20.0,
+          ),
+
+          new Padding(padding: const EdgeInsets.all(8.0),
+            child: GestureDetector(
+                onTap:(){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> Dialogboxs()));
+                },
+                child: Text('Date Time with dialog',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),)),
+          ),
+          SizedBox(
+            height: 20.0,
+          ),
+
+          new Padding(padding: const EdgeInsets.all(8.0),
+            child: GestureDetector(
+                onTap:(){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> Help()));
+                },
+                child: Text('help',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),)),
           ),
 
         ],
