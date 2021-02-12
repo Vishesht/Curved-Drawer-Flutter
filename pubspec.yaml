@@ -37,6 +37,8 @@ dependencies:
   intl: ^0.16.1
   date_format:
   flutter_cupertino_date_picker: ^1.0.26+2
+  fluttertoast: ^7.1.6
+  image_picker: ^0.6.7+22
 
 
 
@@ -64,6 +66,7 @@ flutter:
     - n5.jpg
     - img.jpeg
     - world.jpg
+    - log.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
+import 'package:imageslider/Api/completeprofile.dart';
 import 'package:imageslider/help.dart';
 import 'dialog.dart';
 import 'slider.dart';
@@ -11,6 +12,7 @@ import 'instagram.dart';
 import 'drawer.dart';
 import 'httpflutter.dart';
 import 'datetimeset.dart';
+import 'Api/registerapi.dart';
 
 void main() {
   runApp(MyApp());
@@ -66,7 +68,28 @@ class _MyHomeState extends State<MyHome> {
           ),
 
           ImageList(),
+
           Divider(color: Colors.grey,),
+          new Padding(padding: const EdgeInsets.all(8.0),
+            child: GestureDetector(
+                onTap:(){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> RegisterApi()));
+                },
+                child: Text('Register API',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),)),
+          ),
+          SizedBox(
+            height: 20.0,
+          ),
+          new Padding(padding: const EdgeInsets.all(8.0),
+            child: GestureDetector(
+                onTap:(){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> CompleteProfile()));
+                },
+                child: Text('Complete api Profile',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),)),
+          ),
+          SizedBox(
+            height: 20.0,
+          ),
 
           new Padding(padding: const EdgeInsets.all(8.0),
             child: GestureDetector(onTap:(){
@@ -178,7 +201,7 @@ class _MyHomeState extends State<MyHome> {
           new Padding(padding: const EdgeInsets.all(8.0),
             child: GestureDetector(
                 onTap:(){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> Help()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> Homes()));
                 },
                 child: Text('help',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),)),
           ),

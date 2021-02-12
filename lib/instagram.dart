@@ -102,7 +102,7 @@ class _InstagramState extends State<Instagram> {
                     ),
                     Container(
                       margin: EdgeInsets.only(left: 20),
-                        child: Text('Vishesh Gupta',style: TextStyle(fontSize: 16.5,fontWeight: FontWeight.bold),)),
+                        child: Text('Vishesht Gupta',style: TextStyle(fontSize: 16.5,fontWeight: FontWeight.bold),)),
                     Container(
                         margin: EdgeInsets.only(left: 20),
                         child: Text('Flutter Developer',style: TextStyle(fontSize: 16),)),

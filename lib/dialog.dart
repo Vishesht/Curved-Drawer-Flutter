@@ -8,13 +8,7 @@ class Dialogboxs extends StatefulWidget {
 
 class _DialogboxsState extends State<Dialogboxs> {
   String _time = "Not set";
-  StateSetter _setState;
 
-  @override
-  void initState() {
-    super.initState();
-    //_time = '${time.hour} : ${time.minute} : ${time.second}';
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,13 +48,13 @@ class _DialogboxsState extends State<Dialogboxs> {
                                       });
 
                                     }, currentTime: DateTime.now(), locale: LocaleType.en);
+
                               },
-                              child: Text("Set timing"),
+                              child: Text("Set timing",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,backgroundColor: Colors.green,color: Colors.white),),
                             ),
                             FlatButton(
                               onPressed: () {
-                                //Navigator.of(context).pop();
-                                Navigator.pop(context, true);
+                                Navigator.pop(context, _time);
                               },
                               child: Text("OK"),
                             ),
