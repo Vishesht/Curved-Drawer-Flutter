@@ -1,6 +1,6 @@
-# imageslider
+# Curved Drawer Flutter
 
-A new Flutter application.
+Custon Curved Drawer Design 
 
 ## Getting Started
 
