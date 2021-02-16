@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
+import 'completeprofile.dart';
+
 
 
 class RegisterApi extends StatefulWidget {
@@ -176,7 +178,12 @@ class _RegisterApiState extends State<RegisterApi> {
     var url = 'https://staging.promaticstechnologies.com:3001/user_register';
     var response = await http.post(url, body: {'fullname': nameController.text, 'contact_number': phoneController.text,'password': passwordController.text});
     print('Response status: ${response.statusCode}');
+    var data = jsonDecode(response.body);
+    var myToken = data['data']['token'];
+    print("wwwyyDataadata"+myToken.toString());
+    //print("fcccDataadata"+data.toString());
     print('Response body: ${response.body}');
+    Navigator.push(context, MaterialPageRoute(builder: (context)=> CompleteProfile(myToken:myToken.toString())));
   }
 }
 

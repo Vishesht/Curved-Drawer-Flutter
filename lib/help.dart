@@ -1,93 +1,62 @@
-import 'dart:async';
-import 'dart:convert';
+import 'package:curved_drawer/curved_drawer.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
-class Post {
-  final String userId;
-  final int id;
-  final String title;
-  final String body;
 
-  Post({this.userId, this.id, this.title, this.body});
-
-  factory Post.fromJson(Map json) {
-    return Post(
-      userId: json['userId'],
-      id: json['id'],
-      title: json['title'],
-      body: json['body'],
-    );
-  }
-
-  Map toMap() {
-    var map = new Map();
-    map["userId"] = userId;
-    map["title"] = title;
-    map["body"] = body;
-
-    return map;
-  }
+class BottomNavBar extends StatefulWidget {
+  @override
+  _BottomNavBarState createState() => _BottomNavBarState();
 }
 
-Future createPost(String url, {Map body}) async {
-  return http.post(url, body: body).then((http.Response response) {
-    final int statusCode = response.statusCode;
-
-    if (statusCode < 200 || statusCode > 400 || json == null) {
-      throw new Exception("Error while fetching data");
-    }
-    return Post.fromJson(json.decode(response.body));
-  });
-}
-
-class Homes extends StatelessWidget {
-  final Future post;
-
-  Homes({Key key, this.post}) : super(key: key);
-  static final CREATE_POST_URL = 'https://jsonplaceholder.typicode.com/posts';
-  TextEditingController titleControler = new TextEditingController();
-  TextEditingController bodyControler = new TextEditingController();
-
+class _BottomNavBarState extends State {
+  int _page = 0;
+  int _drawer = 0;
+  GlobalKey _bottomNavigationKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return MaterialApp(
-      title: "WEB SERVICE",
-      theme: ThemeData(
-        primaryColor: Colors.deepOrange,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("hjbdv"),
       ),
-      home: Scaffold(
-          appBar: AppBar(
-            title: Text('Create Post'),
-          ),
-          body: new Container(
-            margin: const EdgeInsets.only(left: 8.0, right: 8.0),
-            child: new Column(
-              children: [
-                new TextField(
-                  controller: titleControler,
-                  decoration: InputDecoration(
-                      hintText: "title....", labelText: 'Post Title'),
-                ),
-                new TextField(
-                  controller: bodyControler,
-                  decoration: InputDecoration(
-                      hintText: "body....", labelText: 'Post Body'),
-                ),
-                new RaisedButton(
-                  onPressed: () async {
-                    Post newPost = new Post(
-                        userId: "123", id: 0, title: titleControler.text, body: bodyControler.text);
-                    Post p = await createPost(CREATE_POST_URL,
-                        body: newPost.toMap());
-                    print(p.title);
-                  },
-                  child: const Text("Create"),
-                )
-              ],
-            ),
-          )),
-    );
+        bottomNavigationBar: CurvedNavigationBar(
+          key: _bottomNavigationKey,
+          index: 0,
+          height: 50.0,
+          items: [
+            Icon(Icons.add, size: 30),
+            Icon(Icons.list, size: 30),
+            Icon(Icons.compare_arrows, size: 30),
+            Icon(Icons.call_split, size: 30),
+            Icon(Icons.perm_identity, size: 30),
+          ],
+          color: Colors.blue,
+          buttonBackgroundColor: Colors.white,
+          backgroundColor: Colors.white,
+          animationCurve: Curves.easeInOut,
+          animationDuration: Duration(milliseconds: 600),
+          onTap: (index) {
+            setState(() {
+              _page = index;
+            });
+          },
+        ),
+        body: Container(
+          color: Colors.white,
+          // child: Center(
+          //   child: Column(
+          //     children: [
+          //       Text(_page.toString(), textScaleFactor: 10.0),
+          //       RaisedButton(
+          //         child: Text('Go To Page of index 1'),
+          //         onPressed: () {
+          //           final CurvedNavigationBarState navBarState =
+          //               _bottomNavigationKey.currentState;
+          //           navBarState.setPage(1);
+          //         },
+          //       )
+          //     ],
+          //   ),
+          // ),
+        ));
   }
 }

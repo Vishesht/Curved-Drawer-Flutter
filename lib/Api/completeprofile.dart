@@ -1,41 +1,47 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/painting.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class CompleteProfile extends StatefulWidget {
+  String myToken;
+  CompleteProfile({this.myToken});
+  //CompleteProfile({Key key, @required this.myToken}) : super(key: key);
   @override
   _CompleteProfileState createState() => _CompleteProfileState();
 }
 
 class _CompleteProfileState extends State<CompleteProfile> {
-  TextEditingController nameController = new TextEditingController();
-  TextEditingController phoneController = new TextEditingController();
-  TextEditingController passwordController = new TextEditingController();
-  TextEditingController confirmpasswordController = new TextEditingController();
+
+  TextEditingController emailController = new TextEditingController();
+
+  // TextEditingController genderController = new TextEditingController();
+  // TextEditingController passwordController = new TextEditingController();
+  // TextEditingController confirmpasswordController = new TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-  // File _image;
-  // final picker = ImagePicker();
-
-  // Future getImage() async {
-  //   final pickedFile = await picker.getImage(source: ImageSource.camera);
-  //
-  //   setState(() {
-  //     if (pickedFile != null) {
-  //       _image = File(pickedFile.path);
-  //     } else {
-  //       print('No image selected.');
-  //     }
-  //   });
-  // }
-  File file = new File("n4.jpeg");
-
-  int _value = 1;
-  var currentSelectedValue;
+  var country;
   var gender;
+  var age;
   static const deviceTypes = ["India", "USA", "China"];
   static const genderTypes = ["Male", "Female", "Others"];
+  static const ageTypes = ["1", "2", "3","4", "5", "6"];
+
+  var myImage = "";
+
+@override
+  void initState() {
+    super.initState();
+    print("-----myToken"+widget.myToken.toString());
+
+  }
+
+  final ImagePicker _picker = ImagePicker();
+  PickedFile _imageFile;
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -52,9 +58,20 @@ class _CompleteProfileState extends State<CompleteProfile> {
       body: Column(
         children: [
           SizedBox(height:30,),
-          Center(
-            child: new CircleAvatar(backgroundImage: new FileImage(file), radius: 100.0,),
-          ),
+          CircleAvatar(backgroundImage: myImage == null ?  AssetImage('n1.jpg') : NetworkImage("https://staging.promaticstechnologies.com/Beauffer/public/images/users/"+myImage) ,
+            backgroundColor: Colors.grey,radius: 90,child: _imageFile == null ? Text("Upload Image",
+              style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 22),) : null),
+          GestureDetector(
+            onTap: () async {
+              final pickedFile = await _picker.getImage(source: ImageSource.gallery);
+              setState(() {
+                _imageFile = pickedFile;
+                print("pathhhh - "+_imageFile.path);
+                print("image is here - "+myImage);
+
+              });
+            },
+              child: Container(margin: EdgeInsets.only(left: 100,bottom: 0),child: Icon(Icons.camera_alt_outlined))),
           SizedBox(height:30,),
           Center(child: Text('Sign Up',style: TextStyle(color: Colors.pink,fontSize: 28),),),
           Expanded(
@@ -81,7 +98,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
                                           }
                                           return null;
                                         },
-                                        controller: nameController,
+                                        controller: emailController,
                                         decoration: InputDecoration(
                                           fillColor: Colors.black,
                                           border: OutlineInputBorder(
@@ -114,6 +131,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
                                             gender = newValue;
                                           });
                                           print(gender);
+                                          //print("my Dataadata -  "+ myToken);
                                         },
                                         items: genderTypes.map((String value) {
                                           return DropdownMenuItem<String>(
@@ -147,15 +165,15 @@ class _CompleteProfileState extends State<CompleteProfile> {
                                     child: DropdownButtonHideUnderline(
                                       child: DropdownButton<String>(
                                         hint: Text("Enter Age"),
-                                        value: currentSelectedValue,
+                                        value: age,
                                         isDense: true,
                                         onChanged: (newValue) {
                                           setState(() {
-                                            currentSelectedValue = newValue;
+                                            age = newValue;
                                           });
-                                          print(currentSelectedValue);
+                                          print(age);
                                         },
-                                        items: deviceTypes.map((String value) {
+                                        items: ageTypes.map((String value) {
                                           return DropdownMenuItem<String>(
                                             value: value,
                                             child: Text(value),
@@ -186,13 +204,13 @@ class _CompleteProfileState extends State<CompleteProfile> {
                                     child: DropdownButtonHideUnderline(
                                       child: DropdownButton<String>(
                                         hint: Text("Select Your Country"),
-                                        value: currentSelectedValue,
+                                        value: country,
                                         isDense: true,
                                         onChanged: (newValue) {
                                           setState(() {
-                                            currentSelectedValue = newValue;
+                                            country = newValue;
                                           });
-                                          print(currentSelectedValue);
+                                          print(country);
                                         },
                                         items: deviceTypes.map((String value) {
                                           return DropdownMenuItem<String>(
@@ -211,11 +229,7 @@ class _CompleteProfileState extends State<CompleteProfile> {
                           child: RaisedButton(
                             onPressed:(){
                               if (_formKey.currentState.validate() ) {
-                                if (passwordController.text == confirmpasswordController.text){
-                                  //postData();
-                                }else{
-                                  print('password not match');
-                                }
+                                postData();
                               }
                             },
                             color: Colors.pinkAccent,
@@ -237,5 +251,44 @@ class _CompleteProfileState extends State<CompleteProfile> {
         ],
       ),
     );
+  }
+  void postData() async {
+    Map<String , String > map ={'email': emailController.text,
+      'gender': gender,
+      'age': age,
+      'country':country,
+    };
+    //print("bwefhbguefv "+myToken);
+    //final String myToken = '267e6a9d5a128fb1f44e670fcd89793af50fa9a831e6ae7dc2f0592b508bd224a71290fbdf1619cf52ed0f2c034b26380a061afcba59125c7061359d2963e2f5a906bb2967c9ed34edc4e71a0b837ec47a013f7e16790b7820418dc5a4c23e16c6d9e17e6f945661389dbf8fdc0160255fe7e809be0ce0110492eb63d5423a8fa3f561b507209786a303acb6ab2cf816cf76bad00d77121babf0d9b95b8bd7f434e0002c3aea0b6265fd8acf9b44fc1b';
+    var url = 'https://staging.promaticstechnologies.com:3001/user_complete_profile';
+    var req = http.MultipartRequest('POST', Uri.parse(url));
+    req.headers.addAll({HttpHeaders.authorizationHeader: widget.myToken });
+    req.fields.addAll(map);
+
+    req.files.add(await http.MultipartFile.fromPath('profile_image', _imageFile.path));
+   // var response = await http.post(url, body: {'email': emailController.text, 'gender': gender,'age': age,'country':country,'profile_image': _imageFile.readAsBytes()},headers: {HttpHeaders.authorizationHeader: widget.myToken });
+   //  print('Response status: ${response.statusCode}');
+   //  print('Response body: ${response.body}');
+    req.send().then((response) async {
+      if (response.statusCode == 200){
+        print("Inside 200");
+        var responseData = await response.stream.toBytes();
+        var responseString = String.fromCharCodes(responseData);
+
+
+        Map dataIs = jsonDecode(responseString);
+        var imageName = dataIs['response']['profile_image'];
+        print("image is the gsgdyd"+imageName);
+        setState(() {
+          myImage=imageName;
+        });
+        print("Response is "+responseString.toString());
+
+      } else if(response.statusCode == 201){
+        print("Inside 201");
+      }else{
+        print("Error !");
+      }
+    });
   }
 }

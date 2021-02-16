@@ -39,6 +39,12 @@ dependencies:
   flutter_cupertino_date_picker: ^1.0.26+2
   fluttertoast: ^7.1.6
   image_picker: ^0.6.7+22
+  shared_preferences: ^0.5.12+4
+
+  after_layout: ^1.0.7+2
+  clay_containers: ^0.2.2
+  curved_drawer: ^0.1.2
+  curved_navigation_bar: ^0.3.7
 
 
 

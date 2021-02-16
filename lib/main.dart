@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:imageslider/Api/completeprofile.dart';
 import 'package:imageslider/help.dart';
+import 'package:imageslider/upload_image.dart';
+import 'animateddrawer.dart';
 import 'dialog.dart';
 import 'slider.dart';
 import 'DateTime.dart';
@@ -76,6 +78,16 @@ class _MyHomeState extends State<MyHome> {
                   Navigator.push(context, MaterialPageRoute(builder: (context)=> RegisterApi()));
                 },
                 child: Text('Register API',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),)),
+          ),
+          SizedBox(
+            height: 20.0,
+          ),
+          new Padding(padding: const EdgeInsets.all(8.0),
+            child: GestureDetector(
+                onTap:(){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> AnimatedDrawer()));
+                },
+                child: Text('Animated Drawer app',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),)),
           ),
           SizedBox(
             height: 20.0,
@@ -201,11 +213,21 @@ class _MyHomeState extends State<MyHome> {
           new Padding(padding: const EdgeInsets.all(8.0),
             child: GestureDetector(
                 onTap:(){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> Homes()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> BottomNavBar()));
                 },
                 child: Text('help',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),)),
           ),
+          SizedBox(
+            height: 20.0,
+          ),
 
+          new Padding(padding: const EdgeInsets.all(8.0),
+            child: GestureDetector(
+                onTap:(){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> MyImagePicker()));
+                },
+                child: Text('Upload Image',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),)),
+          ),
         ],
       ),
     );
