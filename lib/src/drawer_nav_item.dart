@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-
+import 'package:flutter/painting.dart';
 
 class DrawerNavItem extends StatelessWidget {
   final Icon icon;
@@ -48,8 +47,6 @@ class DrawerNavItem extends StatelessWidget {
   }
 }
 
-
-
 class NavButton extends StatelessWidget {
   final double position;
   final int length;
@@ -59,6 +56,8 @@ class NavButton extends StatelessWidget {
   final Color color;
   final ValueChanged<int> onTap;
   final Icon icon;
+  final String label;
+  final double size;
 
  
 
@@ -70,7 +69,10 @@ class NavButton extends StatelessWidget {
       this.width,
       this.color,
       this.index,
-      this.icon});
+      this.icon,
+      this.label,
+        this.size = 35.0,
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -94,10 +96,25 @@ class NavButton extends StatelessWidget {
                   0),
               child: Opacity(
                   opacity: difference < 1.0 / length * 0.99 ? opacity : 1.0,
-                  child: Icon(
-                    icon.icon,
-                    color: this.color,
-                  )),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisSize: MainAxisSize.min,
+                    children:  this.label.isNotEmpty ? <Widget>[
+                      Flexible(
+                        child: RotationTransition(
+                          turns: new AlwaysStoppedAnimation(90 / 360),
+                          child: Text(
+                            label,
+                            style: TextStyle(color: Colors.black,fontSize: 16),
+                          ),
+                        ),
+                      ),
+                    ] :
+                    <Widget>[
+                      Icon(this.icon.icon, size: this.size, color: Colors.black),
+                    ],
+                  ),
+              ),
             )),
       ),
     );

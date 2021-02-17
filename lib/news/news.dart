@@ -7,8 +7,10 @@ class News extends StatelessWidget{
     // TODO: implement build
     return Container(
       child: Scaffold(
-         backgroundColor: Colors.black,
-        
+        // backgroundColor: Colors.black,
+        body: Center(
+          child: Text('News'),
+        ),
     )
     );
   }

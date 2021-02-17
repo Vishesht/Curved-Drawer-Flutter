@@ -12,10 +12,7 @@ final String title;
 DrawerExample(
   this.index,
    this.title,
-  
 );
-
-
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -28,25 +25,31 @@ class DrawerExampleState extends State<DrawerExample>{
 
     List<DrawerItem> listpages = [
         DrawerItem(
-          icon: Icon(Icons.library_books),
-          label:"News"
+          icon: Icon(Icons.menu),
         ),
         DrawerItem(
           icon: Icon(Icons.calendar_today),
-          label: "Schedule",
+          label: "Package",
         ),
          DrawerItem(
           icon: Icon(Icons.home),
-          label:"Home"
+          label:"Terms & Condition"
         ),
          DrawerItem(
           icon: Icon(Icons.person_add),
-          label:"Register"
+          label:"Privacy Policy"
         ),
         DrawerItem(
           icon: Icon(Icons.people),
-          label:"About Us"
+          label:"Contact Us"
         ),
+      DrawerItem(
+          icon: Icon(Icons.people),
+          label:"Rate App"
+      ),
+      DrawerItem(
+          icon: Icon(Icons.logout),
+      ),
   ];
 
   int selectedIndex=2 ;
@@ -64,18 +67,15 @@ String title;
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Scaffold(appBar: AppBar(
+    return Scaffold(
+      appBar: AppBar(
                   title: Text(title),
                   backgroundColor: Colors.blue,
-                  leading: Builder(
-        builder: (context) => IconButton(
-            icon: new Icon(Icons.menu),
-            onPressed: () => Scaffold.of(context).openDrawer(),
-          ),
-        ),
                 ),
-                drawer: Stack(children:[ CurvedDrawer(items: listpages,index:selectedIndex)]),
-                //Drawer: Stack(children:[ CurvedDrawer(items: listpages,index:selectedIndex)]),
-                body:abc[selectedIndex]);
+                endDrawer: Stack(children:[ CurvedDrawer(items: listpages,index:selectedIndex)]),
+                body: Center(
+                  child: abc[selectedIndex],
+                ),
+    );
   }
 }

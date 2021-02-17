@@ -7,8 +7,10 @@ class AboutUs extends StatelessWidget{
     // TODO: implement build
     return Container(
       child: Scaffold(
-         backgroundColor: Colors.black,
-        
+         //backgroundColor: Colors.white,
+        body: Center(
+          child: Text('About'),
+        ),
     )
     );
   }
